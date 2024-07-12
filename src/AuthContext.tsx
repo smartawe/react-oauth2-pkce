@@ -107,11 +107,11 @@ export const AuthProvider = ({ authConfig, children }: IAuthProvider) => {
 
   function handleTokenResponse(response: TTokenResponse) {
     setToken(response.access_token)
-    setIdToken(response.id_token)
     let tokenExp = FALLBACK_EXPIRE_TIME
     // Decode IdToken, so we can use "exp" from that as fallback if expire not returned in the response
     try {
       if (response.id_token) {
+        setIdToken(response.id_token)
         const decodedToken = decodeJWT(response.id_token)
         tokenExp = Math.round(Number(decodedToken.exp) - Date.now() / 1000) // number of seconds from now
       }
